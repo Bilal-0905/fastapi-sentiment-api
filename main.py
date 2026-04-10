@@ -18,7 +18,13 @@ def analyze_sentiment(text:str):
         sentiment=("Neutral")
     else:
         sentiment=("Negative")
-    return{"text":text,"sentiment":sentiment,"score":analysis.sentiment.polarity}
+    if abs(analysis.sentiment.polarity) >= 0.5 :
+        confidence=("High")
+    elif abs(analysis.sentiment.polarity) >= 0.1:
+        confidence=("Medium")
+    elif abs(analysis.sentiment.polarity) <=0:
+        confidence=("Low")
+    return{"text":text,"sentiment":sentiment,"score":analysis.sentiment.polarity,"confidence":confidence}
 
 @app.post("/sentiment/batch")
 def analyze_batch(texts:list[str]):
